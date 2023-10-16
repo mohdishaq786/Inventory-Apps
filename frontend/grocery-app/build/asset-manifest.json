@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.9c79448b.css",
+    "main.js": "/static/js/main.c2d4e6a2.js",
+    "static/js/787.b93c7780.chunk.js": "/static/js/787.b93c7780.chunk.js",
+    "static/media/backgrounds.png": "/static/media/backgrounds.6dbf1ac54c4383fa95c1.png",
+    "static/media/pexels-anna-shvets-3962292.jpg": "/static/media/pexels-anna-shvets-3962292.170c3c39721763efd1e7.jpg",
+    "static/media/red-onions-7110784-hero-jpg": "/static/media/red-onions-7110784-hero-79e37549208f4b21a95481bcb7725cb1.dc598187814742cec459.jpg",
+    "static/media/tomatoes-1296x728-feature.jpg": "/static/media/tomatoes-1296x728-feature.601a93a9e126189d210b.jpg",
+    "static/media/1681187131-8074.jpg": "/static/media/1681187131-8074.a6bc1094aba315f46492.jpg",
+    "static/media/cucumbers.jpg": "/static/media/cucumbers.d9c1e9f975671ebe456d.jpg",
+    "static/media/apples-101-about-1440x810.jpg": "/static/media/apples-101-about-1440x810.9673954c090555889afa.jpg",
+    "index.html": "/index.html",
+    "main.9c79448b.css.map": "/static/css/main.9c79448b.css.map",
+    "main.c2d4e6a2.js.map": "/static/js/main.c2d4e6a2.js.map",
+    "787.b93c7780.chunk.js.map": "/static/js/787.b93c7780.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9c79448b.css",
+    "static/js/main.c2d4e6a2.js"
+  ]
+}
