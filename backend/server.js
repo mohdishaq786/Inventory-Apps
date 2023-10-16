@@ -6,7 +6,7 @@ const userRouter = require("./Routes/userRoutes");
 const app = express();
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const path = require(path);
+const path = require("path");
 const { errorHandler, notFound } = require("./middleware/errorMiddleware");
 dotenv.config();
 //db conection
