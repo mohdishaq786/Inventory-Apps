@@ -21,14 +21,14 @@ app.use("/api/grocery", inventoryRoutes);
 //app  user
 app.use("/api/users", userRouter);
 //-----------------------------------------------------------------DEployment------------------------->
-const __dirname = path.resolve();
+const __dirname1 = path.resolve();
 
 if (process.env.NODE_ENV === "Production") {
-  app.use(express.static(path.join(__dirname, "/frontend/grocery-app/build")));
+  app.use(express.static(path.join(__dirname1, "/frontend/grocery-app/build")));
 
   app.get("*", (req, res) =>
     res.sendFile(
-      path.resolve(__dirname, "frontend/grocery-app", "build", "index.html")
+      path.resolve(__dirname1, "frontend/grocery-app", "build", "index.html")
     )
   );
 } else {
