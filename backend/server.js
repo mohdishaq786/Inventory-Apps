@@ -7,7 +7,7 @@ const app = express();
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const path = require("path");
-const { errorHandler, notFound } = require("./middleware/errorMiddleware");
+const { errorHandler, notFound } = require("./middleware/errorMiddleWare.js");
 dotenv.config();
 //db conection
 connectDB();
