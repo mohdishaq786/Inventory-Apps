@@ -18,7 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import CreateItem from "../images/plus.png";
 const url =
   process.env.NODE_ENV === "production"
-    ? "https://grocery-app-peu1.onrender.com/"
+    ? "https://grocery-app-peu1.onrender.com"
     : "http://localhost:5000";
 class Grocery extends React.Component {
   constructor(props) {
