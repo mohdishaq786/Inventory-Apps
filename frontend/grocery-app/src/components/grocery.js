@@ -16,8 +16,10 @@ import LoadingSpinner from "./spinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreateItem from "../images/plus.png";
-//  const url = "http://localhost:5000/api";
-
+const url =
+  process.env.NODE_ENV === "production"
+    ? "https://grocery-app-peu1.onrender.com/"
+    : "http://localhost:5000";
 class Grocery extends React.Component {
   constructor(props) {
     super(props);
@@ -46,7 +48,7 @@ class Grocery extends React.Component {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.setState({ isLoading: true });
     request
-      .get("/api/grocery")
+      .get(url + "/api/grocery")
       .set("Content-Type", "application/json")
       .set("Authorization", `Bearer ${userInfo.token}`)
       .then((response) => {
@@ -74,7 +76,7 @@ class Grocery extends React.Component {
     const { name, quantity, unit } = this.state;
     this.setState({ isLoading: true });
     request
-      .post("api/grocery/addGrocery")
+      .post(url + "api/grocery/addGrocery")
       .set("Content-Type", "application/json")
       .set("Authorization", `Bearer ${userInfo.token}`)
       .send({ name, quantity, unit })
@@ -102,7 +104,7 @@ class Grocery extends React.Component {
     const { _id, name, quantity, unit } = this.state;
     this.setState({ isLoading: true });
     request
-      .put(`/api/grocery/${_id}`)
+      .put(url + `/api/grocery/${_id}`)
       .set("Content-Type", "application/json")
       .set("Authorization", `Bearer ${userInfo.token}`)
 
@@ -130,7 +132,7 @@ class Grocery extends React.Component {
 
     this.setState({ isLoading: true });
     request
-      .delete(`api/grocery/${idToDelete}`)
+      .delete(url + `api/grocery/${idToDelete}`)
       .set("Content-Type", "application/json")
       .set("Authorization", `Bearer ${userInfo.token}`)
       .then((response) => {

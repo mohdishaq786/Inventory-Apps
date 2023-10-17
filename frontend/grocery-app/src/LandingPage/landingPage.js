@@ -6,7 +6,10 @@ import "./landingStyles.css";
 import { withRouter } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// const url = "http://localhost:5000/api";
+const url =
+  process.env.NODE_ENV === "production"
+    ? "https://grocery-app-peu1.onrender.com/"
+    : "http://localhost:5000";
 class LandingPage extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +43,7 @@ class LandingPage extends Component {
         },
       };
       const response = await axios.post(
-        "/users/login",
+        url + "/users/login",
         {
           email: this.state.email,
           password: this.state.password,
@@ -77,7 +80,7 @@ class LandingPage extends Component {
         },
       };
       const response = await axios.post(
-        "/users",
+        url + "/users",
         {
           name: this.state.name,
           email: this.state.email,
