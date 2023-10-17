@@ -6,14 +6,19 @@ import "./landingStyles.css";
 import { withRouter } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const url = "http://localhost:5000/api";
+// const url = "http://localhost:5000/api";
 class LandingPage extends Component {
-  state = {
-    showLogin: true,
-    email: "",
-    password: "",
-    name: "",
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showLogin: true,
+      email: "",
+      password: "",
+      name: "",
+      confirmPassword: "",
+      errors: {},
+    };
+  }
 
   componentDidMount() {
     const userInfo = localStorage.getItem("userInfo");
@@ -35,24 +40,36 @@ class LandingPage extends Component {
         },
       };
       const response = await axios.post(
-        url + "/users/login",
+        "/users/login",
         {
           email: this.state.email,
           password: this.state.password,
         },
         config
       );
+
+      localStorage.setItem("userInfo", JSON.stringify(response.data));
       this.props.history.push("/item");
-      console.log(response.data); // Handle the response as needed
+      console.log(response?.data); // Handle the response as needed
       // Possibly set authentication state and redirect to another page
     } catch (error) {
-      console.error("Login Error:", error.response.data.message);
-      toast.error(error.response.data.message);
+      console.error("Login Error:", error.message);
+      toast.error("Invalid Email or password");
     }
   };
 
   handleRegister = async (event) => {
     event.preventDefault();
+    const { name, email, password, confirmPassword } = this.state;
+
+    // Perform validation
+    const errors = {};
+    if (password !== confirmPassword) {
+      errors.confirmPassword = "Passwords do not match";
+      this.setState({ errors });
+      return;
+    }
+
     try {
       const config = {
         headers: {
@@ -60,7 +77,7 @@ class LandingPage extends Component {
         },
       };
       const response = await axios.post(
-        url + "/users",
+        "/users",
         {
           name: this.state.name,
           email: this.state.email,
@@ -68,7 +85,8 @@ class LandingPage extends Component {
         },
         config
       );
-      console.log(response.data); // Handle the response as needed
+
+      console.log(response?.data); // Handle the response as needed
       // Possibly set authentication state and redirect to another page
       localStorage.setItem("userInfo", JSON.stringify(response.data)); ///loacl can not store the object data
       this.props.history.push("/item");
@@ -85,8 +103,14 @@ class LandingPage extends Component {
   };
 
   render() {
+    const { errors } = this.state;
     return (
       <Container className="landing-container">
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+        />
         <h1 className="title">Welcome To Grocery Inventory System</h1>
         <Row>
           <Col xs={12} md={24} lg={24}>
@@ -105,6 +129,7 @@ class LandingPage extends Component {
                         name="email"
                         value={this.state.email}
                         onChange={this.handleInputChange}
+                        required
                       />
                     </Form.Group>
 
@@ -116,6 +141,7 @@ class LandingPage extends Component {
                         name="password"
                         value={this.state.password}
                         onChange={this.handleInputChange}
+                        required
                       />
                     </Form.Group>
                     <br />
@@ -133,6 +159,7 @@ class LandingPage extends Component {
                         name="name"
                         value={this.state.name}
                         onChange={this.handleInputChange}
+                        required
                       />
                     </Form.Group>
 
@@ -144,6 +171,7 @@ class LandingPage extends Component {
                         name="email"
                         value={this.state.email}
                         onChange={this.handleInputChange}
+                        required
                       />
                     </Form.Group>
 
@@ -155,7 +183,24 @@ class LandingPage extends Component {
                         name="password"
                         value={this.state.password}
                         onChange={this.handleInputChange}
+                        required
                       />
+                    </Form.Group>
+                    <Form.Group controlId="formConfirmPassword">
+                      <Form.Label>Confirm Password</Form.Label>
+                      <Form.Control
+                        type="password"
+                        placeholder="Confirm Password"
+                        name="confirmPassword"
+                        value={this.state.confirmPassword}
+                        onChange={this.handleInputChange}
+                        required
+                      />
+                      {errors.confirmPassword && (
+                        <div className="text-danger">
+                          {errors.confirmPassword}
+                        </div>
+                      )}
                     </Form.Group>
                     <br />
                     <Button variant="primary" type="submit">

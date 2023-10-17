@@ -15,7 +15,8 @@ import FilterAction from "../Utility/filterAction";
 import LoadingSpinner from "./spinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const url = "http://localhost:5000/api";
+import CreateItem from "../images/plus.png";
+//  const url = "http://localhost:5000/api";
 
 class Grocery extends React.Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class Grocery extends React.Component {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.setState({ isLoading: true });
     request
-      .get(url + "/grocery")
+      .get("/api/grocery")
       .set("Content-Type", "application/json")
       .set("Authorization", `Bearer ${userInfo.token}`)
       .then((response) => {
@@ -73,7 +74,7 @@ class Grocery extends React.Component {
     const { name, quantity, unit } = this.state;
     this.setState({ isLoading: true });
     request
-      .post(url + "/grocery/addGrocery")
+      .post("api/grocery/addGrocery")
       .set("Content-Type", "application/json")
       .set("Authorization", `Bearer ${userInfo.token}`)
       .send({ name, quantity, unit })
@@ -101,7 +102,7 @@ class Grocery extends React.Component {
     const { _id, name, quantity, unit } = this.state;
     this.setState({ isLoading: true });
     request
-      .put(url + `/grocery/${_id}`)
+      .put(`/api/grocery/${_id}`)
       .set("Content-Type", "application/json")
       .set("Authorization", `Bearer ${userInfo.token}`)
 
@@ -129,7 +130,7 @@ class Grocery extends React.Component {
 
     this.setState({ isLoading: true });
     request
-      .delete(url + `/grocery/${idToDelete}`)
+      .delete(`api/grocery/${idToDelete}`)
       .set("Content-Type", "application/json")
       .set("Authorization", `Bearer ${userInfo.token}`)
       .then((response) => {
@@ -256,8 +257,51 @@ class Grocery extends React.Component {
     localStorage.removeItem("userInfo"); // Remove user info from localStorage
     window.location.href = "/"; // Redirect to lsnding page
   };
+
+  showEmptyDiv() {
+    const { groceries } = this.state;
+    return (
+      <Card
+        className="h-100"
+        style={{
+          width: "500px",
+          border: "none",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+          borderRadius: "10px",
+          transition: "transform 0.2s",
+          backgroundColor: "#fff", // Initial background color
+          marginLeft: "30%",
+          marginTop: "10%",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            // width: "flex",
+          }}
+        >
+          <img
+            src={CreateItem}
+            alt="icon"
+            style={{
+              height: 40,
+              width: 40,
+              objectFit: "contain",
+              cursor: "pointer",
+            }}
+            onClick={() => this.openAddModal()}
+          />
+          <p style={{ marginTop: 10, fontSize: "17px" }}>"Please add item"</p>
+        </div>
+      </Card>
+    );
+  }
   render() {
     const { search, groceries, isLoading } = this.state;
+
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     // const filteredGroceries = this.state.groceries.filter((item) =>
     //   item?.name?.toLowerCase().includes(search.toLowerCase())
@@ -339,8 +383,10 @@ class Grocery extends React.Component {
         <Row>
           {isLoading ? ( // Conditionally render the spinner
             <LoadingSpinner />
+          ) : groceries?.length > 0 ? (
+            groceries.map((item) => this.renderGroceryCard(item))
           ) : (
-            groceries?.map((item) => this.renderGroceryCard(item))
+            this.showEmptyDiv()
           )}
         </Row>
 

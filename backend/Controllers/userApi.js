@@ -4,49 +4,61 @@ const generateToken = require("../Utility/generateToken");
 
 //register user
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
-  //find user in db
-  console.log("body", req.body);
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    res.status(400).send({ error: "email already used by some other user" });
-  }
-  //else create in db
-  //means add the new user
-  const newUser = await User.create({ name, email, password });
+  try {
+    const { name, email, password } = req.body;
 
-  if (newUser) {
-    res.status(201).json({
-      _id: newUser._id,
-      name: newUser.name,
-      email: newUser.email,
-      password: newUser.password,
-      isAdmin: newUser.isAdmin,
-      pic: newUser.pic,
-      token: generateToken(newUser._id),
-    });
-  } else {
-    res.status(400).json({ error: "failed to add new user" });
+    // Check if the user already exists in the database
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      res
+        .status(400)
+        .json({ error: "Email is already in use by another user" });
+    } else {
+      // Create a new user in the database
+      const newUser = await User.create({ name, email, password });
+
+      // If the user was successfully created, send a response
+      if (newUser) {
+        res.status(201).json({
+          _id: newUser._id,
+          name: newUser.name,
+          email: newUser.email,
+          isAdmin: newUser.isAdmin,
+          pic: newUser.pic,
+          token: generateToken(newUser._id),
+        });
+      } else {
+        res.status(500).json({ error: "Failed to add a new user" });
+      }
+    }
+  } catch (error) {
+    // Handle any unexpected errors
+    res.status(500).json({ error: "Server Error" });
   }
 });
+
 ///login
 const authUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+    const user = await User.findOne({ email });
 
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      pic: user.pic,
-      token: generateToken(user._id),
-    });
-  } else {
-    res.status(401);
-    throw new Error("Invalid Email or Password");
+    if (user && (await user.matchPassword(password))) {
+      console.log("match--->");
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        pic: user.pic,
+        token: generateToken(user._id),
+      });
+    } else {
+      res.status(401).json({ message: "Invalid Email or Password" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
   }
 });
 

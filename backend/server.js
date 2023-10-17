@@ -23,7 +23,7 @@ app.use("/api/users", userRouter);
 //-----------------------------------------------------------------DEployment------------------------->
 const __dirname1 = path.resolve();
 
-if (process.env.NODE_ENV === "Production") {
+if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname1, "/frontend/grocery-app/build")));
 
   app.get("*", (req, res) =>
