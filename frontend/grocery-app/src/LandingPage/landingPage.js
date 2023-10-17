@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const url =
   process.env.NODE_ENV === "production"
-    ? "https://grocery-app-peu1.onrender.com/"
+    ? "https://grocery-app-peu1.onrender.com"
     : "http://localhost:5000";
 class LandingPage extends Component {
   constructor(props) {
