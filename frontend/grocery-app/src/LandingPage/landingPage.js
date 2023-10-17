@@ -43,7 +43,7 @@ class LandingPage extends Component {
         },
       };
       const response = await axios.post(
-        url + "/users/login",
+        url + "/api/users/login",
         {
           email: this.state.email,
           password: this.state.password,
@@ -80,7 +80,7 @@ class LandingPage extends Component {
         },
       };
       const response = await axios.post(
-        url + "/users",
+        url + "/api/users",
         {
           name: this.state.name,
           email: this.state.email,
