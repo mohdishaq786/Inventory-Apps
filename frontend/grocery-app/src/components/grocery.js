@@ -76,7 +76,7 @@ class Grocery extends React.Component {
     const { name, quantity, unit } = this.state;
     this.setState({ isLoading: true });
     request
-      .post(url + "api/grocery/addGrocery")
+      .post(url + "/api/grocery/addGrocery")
       .set("Content-Type", "application/json")
       .set("Authorization", `Bearer ${userInfo.token}`)
       .send({ name, quantity, unit })
@@ -132,7 +132,7 @@ class Grocery extends React.Component {
 
     this.setState({ isLoading: true });
     request
-      .delete(url + `api/grocery/${idToDelete}`)
+      .delete(url + `/api/grocery/${idToDelete}`)
       .set("Content-Type", "application/json")
       .set("Authorization", `Bearer ${userInfo.token}`)
       .then((response) => {
