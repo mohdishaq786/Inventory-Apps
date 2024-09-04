@@ -1,6 +1,7 @@
 import React from "react";
 import { Spinner } from "react-bootstrap";
-import "./LoadingSpinner.css"; 
+
+import "./LoadingSpinner.css"; // Importing custom CSS for enhanced styles
 
 const LoadingSpinner = () => {
   return (
